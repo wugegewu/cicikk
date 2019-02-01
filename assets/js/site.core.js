@@ -242,11 +242,30 @@ var mLayout = function() {
                 state: 'm-brand__toggler--active'                
             }            
         });        
-    }
+    };
+
+    var initLangSwitch = function() {
+        $("[data-toggle=lang]").on("click", function(e){
+            var $this = $(this);
+            var deg = location.href.lastIndexOf('/');
+            if ($this.hasClass("en-gb")) {
+                if (!/\/EN-GB(?=\/)/.test(location.href)) {
+                    location.href = location.href.substring(0, deg) + '/EN-GB' + location.href.substring(deg);
+                }
+            }else{
+                location.href = location.href.replace(/\/EN-GB(?=\/)/, "");
+            }
+        });
+    };
 
     return {
         init: function() {  
             this.initAside();
+            this.initLang();
+        },
+
+        initLang: function() {
+            initLangSwitch();
         },
 
         initAside: function() {
